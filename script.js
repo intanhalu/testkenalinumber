@@ -12,6 +12,30 @@ const gameState = {
 
 const fruits = ['🍎', '🍊', '🍌', '🍇', '🍓', '🍉', '🍑', '🥝'];
 
+function startGame(gameType) {
+  gameState.currentGame = gameType;
+  gameState.score = 0;
+  gameState.currentQuestion = 0;
+  gameState.answers = [];
+
+  document.getElementById('mainMenu').classList.add('hidden');
+  document.getElementById(`${gameType}Game`).classList.remove('hidden');
+
+  // Tunjukkan panel kesukaran dahulu
+  document.getElementById(`${gameType}Difficulty`).classList.remove('hidden');
+  document.getElementById(`${gameType}Content`).classList.add('hidden');
+}
+
+function startKenaliNomborDifficulty(difficulty) {
+  gameState.currentDifficulty = difficulty;
+  gameState.questions = generateKenaliNomborQuestions(difficulty);
+
+  // Sembunyikan panel kesukaran, tunjukkan kandungan permainan
+  document.getElementById('kenaliNomborDifficulty').classList.add('hidden');
+  document.getElementById('kenaliNomborContent').classList.remove('hidden');
+
+  loadQuestion();}
+
 // Shuffle array function
 function shuffleArray(array) {
     const shuffled = [...array];
