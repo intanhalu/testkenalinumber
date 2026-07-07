@@ -12,287 +12,126 @@ const gameState = {
 
 const fruits = ['🍎', '🍊', '🍌', '🍇', '🍓', '🍉', '🍑', '🥝'];
 
-
-
 // Shuffle array function
 function shuffleArray(array) {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-   }
+    }
     return shuffled;
 }
 
-// Generate questions for Kenali Nombor (Recognize Numbers)
+// Soalan khas untuk advanced
+const advancedQuestions = [
+    { text: "Antara berikut, nombor manakah yang paling besar?", options: [25, 17, 32, 28], answer: 32 },
+    { text: "Antara berikut, nombor manakah yang paling kecil?", options: [14, 9, 22, 17], answer: 9 },
+    { text: "Antara berikut, nombor manakah yang paling besar?", options: [41, 38, 45, 40], answer: 45 },
+    { text: "Tuliskan 26 dalam perkataan.", options: ["Dua puluh empat", "Dua puluh enam", "Dua puluh sembilan", "Dua puluh lapan"], answer: "Dua puluh enam" },
+    { text: "Tuliskan 35 dalam perkataan.", options: ["Tiga puluh empat", "Tiga puluh lima", "Tiga puluh enam", "Tiga puluh tiga"], answer: "Tiga puluh lima" }
+];
+
+// Generate questions untuk Kenali Nombor
 function generateKenaliNomborQuestions(difficulty) {
+    if (difficulty === 'advanced') {
+        return shuffleArray(advancedQuestions).slice(0, 10);
+    }
+
     const allQuestions = [];
     let minRange, maxRange;
-    
+
     if (difficulty === 'beginner') {
-        minRange = 1;
-        maxRange = 10;
+        minRange = 1; maxRange = 10;
     } else if (difficulty === 'intermediate') {
-        minRange = 1;
-        maxRange = 20;
-    } else if (difficulty === 'advanced') {
-       minRange = 1;
-       maxRange = 50;
-        
+        minRange = 1; maxRange = 20;
     }
 
-     //Create 30 questions with random counts
-     for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 30; i++) {
         const count = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
-        allQuestions.push({
-            count: count,
-            type: 'items'
-        });
-    }
-    
-    // Shuffle and return first 10
-    const shuffled = shuffleArray(allQuestions);
-    return shuffled.slice(0, 10);
-}
-
-
-
-
-
-function startDifficultySelection(gameType) {
-    document.getElementById('mainMenu').classList.add('hidden');
-    document.getElementById('difficultySelection').classList.remove('hidden');
-}
-
-function startGame(gameType, difficulty = null) {
-    gameState.currentGame = gameType;
-    gameState.currentDifficulty = difficulty;
-    gameState.score = 0;
-    gameState.currentQuestion = 0;
-    gameState.answers = [];
-    
-    // Generate questions based on game type
-    if (gameType === 'kenaliNombor') {
-        gameState.questions = generateKenaliNomborQuestions(difficulty);
-    }
-    
-    document.getElementById('mainMenu').classList.add('hidden');
-    document.getElementById('difficultySelection').classList.add('hidden');
-    document.getElementById('resultsScreen').classList.add('hidden');
-    document.getElementById(`${gameType}Game`).classList.remove('hidden');
-    
-    loadQuestion();
-}
-
-function backToMenu() {
-    document.getElementById('mainMenu').classList.remove('hidden');
-    document.getElementById('difficultySelection').classList.add('hidden');
-    document.getElementById('resultsScreen').classList.add('hidden');
-    
-    const games = ['kenaliNomborGame', 'tambahGame', 'tolakGame', 'masaGame', 'wangGame', 'bentukGame'];
-    games.forEach(game => {
-        document.getElementById(game).classList.add('hidden');
-    });
-    
-    gameState.currentGame = null;
-    gameState.currentDifficulty = null;
-}
-
-function loadQuestion() {
-    if (gameState.currentQuestion >= gameState.totalQuestions) {
-        showResults();
-        return;
+        allQuestions.push({ count: count, type: 'items' });
     }
 
-    const gameType = gameState.currentGame;
-    const question = gameState.questions[gameState.currentQuestion];
-    
-    // Update progress bar
-    const percentage = (gameState.currentQuestion / gameState.totalQuestions) * 100;
-    document.getElementById(`${gameType}Progress`).style.width = percentage + '%';
-    document.getElementById(`${gameType}QNum`).textContent = gameState.currentQuestion + 1;
-    
-    switch(gameType) {
-        case 'kenaliNombor':
-            displayKenaliNomborQuestion(question);
-            break;
-        case 'tambah':
-            displayTambahQuestion(question);
-            break;
-        case 'tolak':
-            displayTolakQuestion(question);
-            break;
-        case 'masa':
-            displayMasaQuestion(question);
-            break;
-        case 'wang':
-            displayWangQuestion(question);
-            break;
-        case 'bentuk':
-            displayBentukQuestion(question);
-            break;
-    }
+    return shuffleArray(allQuestions).slice(0, 10);
 }
 
 // Display Kenali Nombor Question
 function displayKenaliNomborQuestion(question) {
     const nomborVisual = document.getElementById('nomborVisual');
-    nomborVisual.innerHTML = '';
-    
-    const selectedFruit = fruits[Math.floor(Math.random() * fruits.length)];
-    
-    // Create items to display
-    for (let i = 0; i < question.count; i++) {
-        const item = document.createElement('span');
-        item.style.fontSize = '2.5em';
-        item.style.marginRight = '10px';
-        item.textContent = selectedFruit;
-        nomborVisual.appendChild(item);
-    }
-    
-    // Generate options with possible answers
-    const options = [question.count];
-    let difficulty = gameState.currentDifficulty;
-    let minRange, maxRange;
-    
-    if (difficulty === 'beginner') {
-        minRange = 1;
-        maxRange = 7;
-    } else if (difficulty === 'intermediate') {
-        minRange = 7;
-        maxRange = 12;
-    } else if (difficulty === 'advanced') {
-        minRange = 10;
-        maxRange = 30;
-    }
-    
-    // Generate 3 more different options
-    while (options.length < 4) {
-        const option = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
-        if (!options.includes(option)) {
-            options.push(option);
-        }
-    }
-    
-    options.sort(() => Math.random() - 0.5);
-    
+    const questionText = document.getElementById('kenaliNomborQuestion');
     const optionsContainer = document.getElementById('kenaliNomborOptions');
+    const feedback = document.getElementById('kenaliNomborFeedback');
+
+    nomborVisual.innerHTML = '';
     optionsContainer.innerHTML = '';
-    
-    options.forEach(option => {
-        const button = document.createElement('button');
-        button.className = 'option-btn';
-        button.textContent = option;
-        button.onclick = () => checkKenaliNomborAnswer(option, question.count, 'kenaliNombor');
-        optionsContainer.appendChild(button);
-    });
-    
-    document.getElementById('kenaliNomborFeedback').innerHTML = '';
+    feedback.textContent = '';
+
+    // Advanced question (ada text + options)
+    if (question.text) {
+        questionText.textContent = question.text;
+        question.options.forEach(opt => {
+            const button = document.createElement('button');
+            button.className = 'option-btn';
+            button.textContent = opt;
+            button.onclick = () => checkKenaliNomborAnswer(opt, question.answer, 'kenaliNombor');
+            optionsContainer.appendChild(button);
+        });
+    } else {
+        // Beginner/intermediate (kira buah)
+        const selectedFruit = fruits[Math.floor(Math.random() * fruits.length)];
+        for (let i = 0; i < question.count; i++) {
+            const item = document.createElement('span');
+            item.style.fontSize = '2.5em';
+            item.style.marginRight = '10px';
+            item.textContent = selectedFruit;
+            nomborVisual.appendChild(item);
+        }
+
+        questionText.textContent = "Berapa banyak benda di atas?";
+
+        const options = [question.count];
+        let minRange = 1, maxRange = 10;
+        if (gameState.currentDifficulty === 'intermediate') {
+            minRange = 5; maxRange = 20;
+        }
+
+        while (options.length < 4) {
+            const option = Math.floor(Math.random() * (maxRange - minRange + 1)) + minRange;
+            if (!options.includes(option)) options.push(option);
+        }
+
+        shuffleArray(options).forEach(opt => {
+            const button = document.createElement('button');
+            button.className = 'option-btn';
+            button.textContent = opt;
+            button.onclick = () => checkKenaliNomborAnswer(opt, question.count, 'kenaliNombor');
+            optionsContainer.appendChild(button);
+        });
+    }
 }
-
-
 
 // Check Kenali Nombor Answer
 function checkKenaliNomborAnswer(selectedAnswer, correctAnswer, gameType) {
     const feedbackElement = document.getElementById(`${gameType}Feedback`);
     const buttons = document.querySelectorAll(`#${gameType}Options .option-btn`);
-    
+
     buttons.forEach(btn => btn.disabled = true);
-    
+
     const isCorrect = selectedAnswer === correctAnswer;
-    
-    // Highlight the clicked button
+
     buttons.forEach(btn => {
-        let btnValue = parseInt(btn.textContent);
-        
-        if (btnValue === selectedAnswer) {
+        if (btn.textContent == selectedAnswer) {
             if (isCorrect) {
                 btn.classList.add('correct');
-                feedbackElement.classList.remove('wrong');
-                feedbackElement.classList.add('correct');
                 feedbackElement.textContent = '✓ Betul! Bagus sekali!';
                 gameState.score++;
             } else {
                 btn.classList.add('wrong');
-                feedbackElement.classList.remove('correct');
-                feedbackElement.classList.add('wrong');
                 feedbackElement.textContent = `✗ Salah! Jawapan yang betul ialah ${correctAnswer}`;
             }
         }
     });
-    
+
     document.getElementById(`${gameType}Score`).textContent = gameState.score;
-    
     gameState.currentQuestion++;
-    setTimeout(() => {
-        loadQuestion();
-    }, 2000);
-}    
-
-    
-    
-
-function showResults() {
-    const gameType = gameState.currentGame;
-    const difficulty = gameState.currentDifficulty;
-    const score = gameState.score;
-    const total = gameState.totalQuestions;
-    const percentage = Math.round((score / total) * 100);
-    
-    document.getElementById(`${gameType}Game`).classList.add('hidden');
-    document.getElementById('resultsScreen').classList.remove('hidden');
-    
-    let emoji = '😢';
-    let message = 'Cuba lagi!';
-    
-    if (percentage === 100) {
-        emoji = '🏆';
-        message = 'Sempurna! Anda bijak!';
-    } else if (percentage >= 90) {
-        emoji = '😄';
-        message = 'Luar biasa! Sangat cemerlang!';
-    } else if (percentage >= 80) {
-        emoji = '😊';
-        message = 'Bagus! Teruskan berlatih.';
-    } else if (percentage >= 70) {
-        emoji = '👍';
-        message = 'Lumayan! Boleh lebih baik.';
-    } else if (percentage >= 60) {
-        emoji = '😐';
-        message = 'Anda boleh lebih baik. Cuba lagi!';
-    } else {
-        emoji = '😢';
-        message = 'Teruskan berlatih, pasti boleh!';
-    }
-    
-    const gameNames = {
-        'kenaliNombor': 'Kenali Nombor',
-        'tambah': 'Tambah',
-        'tolak': 'Tolak',
-        'masa': 'Masa',
-        'wang': 'Wang',
-        'bentuk': 'Bentuk'
-    };
-    
-    let difficultyName = '';
-    if (difficulty === 'beginner') {
-        difficultyName = ' (Bijak Matematik 1)';
-    } else if (difficulty === 'intermediate') {
-        difficultyName = ' (Bijak Matematik 2)';
-    } else if (difficulty === 'advanced') {
-        difficultyName = ' (Bijak Matematik 3&4)';
-    }
-    
-    const resultContent = document.getElementById('resultContent');
-    resultContent.innerHTML = `
-        <div class="result-emoji">${emoji}</div>
-        <div class="result-score">${score} / ${total}</div>
-        <div class="result-percentage" style="font-size: 1.5em; margin: 15px 0;">${percentage}%</div>
-        <div class="result-message">${message}</div>
-        <div style="margin-top: 20px; font-size: 1em;">Permainan: ${gameNames[gameType]}${difficultyName}</div>
-    `;
+    setTimeout(() => loadQuestion(), 2000);
 }
-
-    window.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('mainMenu').classList.remove('hidden');
-});
