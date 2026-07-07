@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bijak Matematik</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Bijak Matematik - GeniuskidsEdu</h1>
+            <p>Mari belajar matematik dengan cara yang menyeronokkan!</p>
+        </header>
+
+        <!-- Main Menu -->
+        <div id="mainMenu" class="menu-screen">
+            <div class="menu-container">
+                <h2>Pilih Permainan</h2>
+                <div class="menu-buttons">
+                    <button class="menu-btn" onclick="startDifficultySelection('kenaliNombor')">
+                        <span class="icon">🔢</span>
+                        <span>Kenali Nombor</span>
+                    </button>
+                    <button class="menu-btn" onclick="startGame('tambah')">
+                        <span class="icon">➕</span>
+                        <span>Tambah</span>
+                    </button>
+                    <button class="menu-btn" onclick="startGame('tolak')">
+                        <span class="icon">➖</span>
+                        <span>Tolak</span>
+                    </button>
+                    <button class="menu-btn" onclick="startGame('masa')">
+                        <span class="icon">🕐</span>
+                        <span>Masa</span>
+                    </button>
+                    <button class="menu-btn" onclick="startGame('wang')">
+                        <span class="icon">💰</span>
+                        <span>Wang</span>
+                    </button>
+                    <button class="menu-btn" onclick="startGame('bentuk')">
+                        <span class="icon">🔷</span>
+                        <span>Bentuk</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Difficulty Selection Screen for Kenali Nombor -->
+        <div id="difficultySelection" class="menu-screen hidden">
+            <div class="menu-container">
+                <h2>Pilih Tahap Kesukaran - Kenali Nombor</h2>
+                <div class="menu-buttons">
+                    <button class="menu-btn" onclick="startGame('kenaliNombor', 'beginner')">
+                        <span class="icon">🌟</span>
+                        <span>Pemula (1-10)</span>
+                        <span style="font-size: 0.8em;">Bijak Matematik 1</span>
+                    </button>
+                    <button class="menu-btn" onclick="startGame('kenaliNombor', 'intermediate')">
+                        <span class="icon">⭐</span>
+                        <span>Pertengahan (10-50)</span>
+                        <span style="font-size: 0.8em;">Bijak Matematik 2</span>
+                    </button>
+                    <button class="menu-btn" onclick="startGame('kenaliNombor', 'advanced')">
+                        <span class="icon">✨</span>
+                        <span>Lanjutan (50-100)</span>
+                        <span style="font-size: 0.8em;">Bijak Matematik 3&4</span>
+                    </button>
+                </div>
+                <button class="menu-btn" onclick="backToMenu()" style="width: 200px; margin-top: 20px;">← Balik</button>
+            </div>
+        </div>
+
+        <!-- Kenali Nombor Game -->
+        <div id="kenaliNomborGame" class="game-screen hidden">
+            <div class="game-header">
+                <button class="back-btn" onclick="backToMenu()">← Balik</button>
+                <h2>Permainan Kenali Nombor</h2>
+                <div class="score">Skor: <span id="kenaliNomborScore">0</span>/10</div>
+            </div>
+            <div class="game-content">
+                <div class="progress-bar">
+                    <div id="kenaliNomborProgress" class="progress-fill"></div>
+                </div>
+                <div class="question-counter">Soalan <span id="kenaliNomborQNum">1</span>/10</div>
+                <div class="kenali-nombor-display">
+                    <div id="nomborVisual" class="nombor-visual"></div>
+                </div>
+                <div class="question-text" id="kenaliNomborQuestion">Berapa banyak benda di atas?</div>
+                <div class="options">
+                    <div id="kenaliNomborOptions" class="option-buttons"></div>
+                </div>
+                <div id="kenaliNomborFeedback" class="feedback"></div>
+            </div>
+        </div>
+
+         
+    
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="menu-screen hidden">
+            <div class="results-container">
+                <h2>Keputusan Akhir</h2>
+                <div id="resultContent"></div>
+                <button class="menu-btn" onclick="backToMenu()" style="width: 200px;">🏠 Kembali ke Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
