@@ -13,13 +13,12 @@
             <p>Mari belajar matematik dengan cara yang menyeronokkan!</p>
         </header>
 
-        <!-- Menu Utama -->
-<!-- Menu Utama -->
+       <!-- Menu Utama -->
 <div id="mainMenu" class="menu-screen">
   <div class="menu-container">
     <h2>Pilih Permainan</h2>
     <div class="menu-buttons">
-      <button class="menu-btn" onclick="startDifficultySelection('kenaliNombor')">
+      <button class="menu-btn" onclick="startGame('kenaliNombor')">
         <span class="icon">🔢</span>
         <span>Kenali Nombor</span>
       </button>
@@ -27,32 +26,24 @@
   </div>
 </div>
 
-<!-- Skrin Pilih Kesukaran -->
-<div id="difficultySelection" class="hidden">
-  <h2>Pilih Tahap Kesukaran</h2>
-  <div class="menu-buttons">
-    <button class="menu-btn" onclick="startGame('kenaliNombor','beginner')">
-      Bijak Matematik 1 (Beginner)
-    </button>
-    <button class="menu-btn" onclick="startGame('kenaliNombor','intermediate')">
-      Bijak Matematik 2 (Intermediate)
-    </button>
-    <button class="menu-btn" onclick="startGame('kenaliNombor','advanced')">
-      Bijak Matematik 3&4 (Advanced)
-    </button>
-  </div>
-  <button class="back-btn" onclick="backToMenu()">← Balik</button>
-</div>
-
-
-<!-- Kenali Nombor Game -->
+<!-- Kenali Nombor Game (dengan pilihan kesukaran di dalam) -->
 <div id="kenaliNomborGame" class="game-screen hidden">
   <div class="game-header">
     <button class="back-btn" onclick="backToMenu()">← Balik</button>
     <h2>Permainan Kenali Nombor</h2>
     <div class="score">Skor: <span id="kenaliNomborScore">0</span>/10</div>
   </div>
-  <div class="game-content">
+
+  <!-- Pilihan kesukaran di dalam skrin permainan -->
+  <div id="kenaliNomborDifficulty" class="difficulty-panel">
+    <h3>Pilih Tahap Kesukaran</h3>
+    <button onclick="startKenaliNomborDifficulty('beginner')">Bijak Matematik 1 (Beginner)</button>
+    <button onclick="startKenaliNomborDifficulty('intermediate')">Bijak Matematik 2 (Intermediate)</button>
+    <button onclick="startKenaliNomborDifficulty('advanced')">Bijak Matematik 3&4 (Advanced)</button>
+  </div>
+
+  <!-- Kandungan permainan (akan muncul selepas pilih kesukaran) -->
+  <div class="game-content hidden" id="kenaliNomborContent">
     <div class="progress-bar">
       <div id="kenaliNomborProgress" class="progress-fill"></div>
     </div>
@@ -62,9 +53,7 @@
     <div class="kenali-nombor-display">
       <div id="nomborVisual" class="nombor-visual"></div>
     </div>
-    <div class="question-text" id="kenaliNomborQuestion">
-      Berapa banyak benda di atas?
-    </div>
+    <div class="question-text" id="kenaliNomborQuestion">Berapa banyak benda di atas?</div>
     <div class="options">
       <div id="kenaliNomborOptions" class="option-buttons"></div>
     </div>
