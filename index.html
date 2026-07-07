@@ -73,27 +73,36 @@
 
         <!-- Kenali Nombor Game -->
         <div id="kenaliNomborGame" class="game-screen hidden">
-            <div class="game-header">
-                <button class="back-btn" onclick="backToMenu()">← Balik</button>
-                <h2>Permainan Kenali Nombor</h2>
-                <div class="score">Skor: <span id="kenaliNomborScore">0</span>/10</div>
-            </div>
-            <div class="game-content">
-                <div class="progress-bar">
-                    <div id="kenaliNomborProgress" class="progress-fill"></div>
-                </div>
-                <div class="question-counter">Soalan <span id="kenaliNomborQNum">1</span>/10</div>
-                <div class="kenali-nombor-display">
-                    <div id="nomborVisual" class="nombor-visual"></div>
-                </div>
-                <div class="question-text" id="kenaliNomborQuestion">Berapa banyak benda di atas?</div>
-                <div class="options">
-                    <div id="kenaliNomborOptions" class="option-buttons"></div>
-                </div>
-                <div id="kenaliNomborFeedback" class="feedback"></div>
-            </div>
+    <div class="game-header">
+        <button class="back-btn" onclick="backToMenu()">← Balik</button>
+        <h2>Permainan Kenali Nombor</h2>
+        <div class="score">Skor: <span id="kenaliNomborScore">0</span>/10</div>
+    </div>
+    <div class="game-content">
+        <!-- Progress bar -->
+        <div class="progress-bar">
+            <div id="kenaliNomborProgress" class="progress-fill"></div>
         </div>
-
+        <!-- Counter -->
+        <div class="question-counter">
+            Soalan <span id="kenaliNomborQNum">1</span>/10
+        </div>
+        <!-- Visual untuk beginner/intermediate -->
+        <div class="kenali-nombor-display">
+            <div id="nomborVisual" class="nombor-visual"></div>
+        </div>
+        <!-- Teks soalan -->
+        <div class="question-text" id="kenaliNomborQuestion">
+            Berapa banyak benda di atas?
+        </div>
+        <!-- Pilihan jawapan -->
+        <div class="options">
+            <div id="kenaliNomborOptions" class="option-buttons"></div>
+        </div>
+        <!-- Feedback -->
+        <div id="kenaliNomborFeedback" class="feedback"></div>
+    </div>
+</div>
          
     
 
